@@ -1,0 +1,42 @@
+body{
+	background-color: #005B96;
+    padding: 0px;
+    bottom: 54px;
+    position: relative;
+    margin: 0;
+    height: 100%;
+}
+
+#conteudo{
+	width: 1000px; 
+    min-width: 1000px; 
+    margin: 0 auto;	
+    min-height: 500px;
+    border-left:solid;
+	border-right:solid;
+	background-color: #FDFDFD;
+    
+}
+
+.topo{
+    background-color: #9CE6DA;
+    height: 140px;
+    min-width: 1000px;
+}
+
+.topo h1{
+    background-color: #005B96;
+    color: #000102;
+    font: 250% Brush Script MT;
+    text-align: center;
+    position: relative;
+    top: 70px;
+}
+
+#conteudo h2{
+     padding: 30px;
+}
+
+form{
+    padding: 20px;
+}
