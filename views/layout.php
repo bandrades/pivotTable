@@ -16,6 +16,7 @@
 
 		<script type="text/javascript">
 
+		webix.ready(function(){
 			webix.i18n.pivot = {
 				columns: "Colunas",
 				count: "Contar",
@@ -24,31 +25,60 @@
 				max: "Maximo",
 				min: "Minimo",
 				operationNotDefined: "Operação não definida",
-				pivotMessage: "[Click aqui para configurar]",
+				pivotMessage: "Configuraçoes",
 				rows: "Linhas",
 				select: "Selecionar",
 				sum: "Somar",
 				text: "Texto",
 				values: "Valores",
-				windowMessage: "[Mover os campos para o setor desejado]"
+				windowMessage: "[Mova os campos para o setor desejado]"
+
 			};
 
-			webix.ui({
-				view:"pivot",
-				url: "/dw/data",
-				container:"testA", 
-				id:"pivot",
+			var pivot = webix.ui({
+				view: "pivot",
+				url: "/dw/data.csv",
+				datatype: "csv",
+				container: "testA", 
+				id: "pivot",
+                height:600,
+				fieldMap:{
+					"data0" : "Periodo",
+					"data1" : "Tipo",
+					"data2" : "Rota",
+					"data3" : "Operadora",
+					"data4" : "Trafego"
+				},
 				structure: { 
-					rows: ["type", "peer", "carrier"],
-					columns: ["dateCreated"],
-					values: [{ name:"billmin", operation:"sum"}],
-					filters:[{name:"type",type:"select"}, {name:"Rota",type:"select"}, {name:"Operadora",type:"select"}, {name:"dateCreated", type:"text"}],
-					fieldMap:{ "type" : "Tipo", "peer" : "Rota", "carrier" : "Operadora", "dateCreated" : "Periodo", "billmin" : "Trafego" },
+					columns: ['data0'],
+					rows: ["data1", "data3", "data2"],
+					values: [
+						{ name:"data4", operation:"soma"}
+					],
+					filters:[
+						{name:"data1",type:"select"},
+						{name:"data2",type:"select"},
+						{name:"data3",type:"select"},
+						{name:"data0",type:"select"}
+					],
+				},
+				ready:function() {
+					console.log('data pivot loaded');
 				}
 			});
-			$$("pivot").load("../index.php");
+			
+			pivot.operations.soma = function(data) {
+			    var sum = 0;
+			    for (var i = 0; i < data.length; i++) {
+			        var num = window.parseFloat(data[i], 10);
+			        if (!window.isNaN(num))
+			        sum += Math.abs(num);
+			    }
+			    return sum;
+			};
+		});
 
-	</script>
+		</script>
 
 	<title>Relatórios</title>
 	</head>
@@ -76,7 +106,9 @@
 			<div id = "testA"></div> 
 
 		</div>
+
 	</body>
+
 </html>
 
 
