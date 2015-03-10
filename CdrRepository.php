@@ -23,31 +23,17 @@ class CdrRepository{
 		$this->start = $start;
 		$this->end = $end;
 	}
-
-	public function process($page,$qtd_page){
-		$query = "SELECT date_format(dateCreated,'%Y-%m') as Periodo, type, peer, carrier, billmin
+	public function process(){
+		$query = "SELECT date_format(dateCreated,'%Y-%m') as Periodo, type, peer, carrier, sum(billmin)
 					FROM cdrs
 					where dateCreated >= '{$this->start} 00:00:00'
 						and dateCreated <= '{$this->end} 23:59:59'
-						and dateCreated IS NOT NULL
-						and billmin > 0
-					limit ". ($page-1) * $qtd_page  .", $qtd_page";
-
+							and billmin > 0
+					group by Periodo, type, peer, carrier
+					order by Periodo, type, peer,sum(billmin)";
 		$query = $this->db->query($query);
 		$data = $query->fetchAll(PDO::FETCH_ASSOC);
 		return $data;
-	}
-
-	public function countDate(){
-		$valor = " SELECT count(1) as Total " .
-					" FROM cdrs " .
-					" where dateCreated >= '" . $this->start . " 00:00:00' " .
-					" and dateCreated <= '" . $this->end . " 23:59:59' ";
-
-		$query = $this->db->query($valor);
-		$valorT = $query->fetchAll();
-
-		return $valorT[0]["Total"];
 	}
 }
 ?>
