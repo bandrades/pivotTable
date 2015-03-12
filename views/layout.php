@@ -114,8 +114,8 @@
 					<input type="radio" id="relatorioMensal" name="type" value="relatorioMensal" checked >Mensal
 					<input type="radio" id="relatorioDiario" name="type" value="relatorioDiario">Diario <br>
 
-					Inicio: <input type="text" id="inicio" name = "inicio" value="" required> 
-					Fim: <input type="text"  id="fim" name = "fim" value="" required> 
+					Inicio: <input type="text" id="inicio" name = "inicio" value="" required="true"> 
+					Fim: <input type="text"  id="fim" name = "fim" value="" required="true"> 
 
 					<input type="submit" value="Gerar" onClick = "carregaTabela()"/>
 
