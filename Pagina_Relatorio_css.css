@@ -18,6 +18,13 @@ body{
     
 }
 
+#formulario{
+    min-height: 50px;
+    border-bottom:solid;
+    padding: 50px;  
+    line-height: 200%;
+}
+
 .topo{
     background-color: #9CE6DA;
     height: 140px;
@@ -35,8 +42,4 @@ body{
 
 #conteudo h2{
      padding: 30px;
-}
-
-form{
-    padding: 20px;
 }

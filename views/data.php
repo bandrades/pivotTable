@@ -8,8 +8,9 @@ if(empty($SID)) session_start() or exit(basename(__FILE__).'(): Could not start 
 
 $start = $_GET['start'];
 $end = $_GET['end'];
+$type = $_GET['type']; 
 
-$repository = new CdrRepository($start, $end);
+$repository = new CdrRepository($start, $end, $type);
 $csv = new Csv_Writer();
 
 $result = $repository->process();

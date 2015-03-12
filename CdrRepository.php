@@ -6,8 +6,9 @@ class CdrRepository{
 	private $db = null;
 	private $start;
 	private $end;
+	private $type;
 
-	public function __construct($start,$end){
+	public function __construct($start, $end, $type){
 			$cfg = array(
 		    'database_type' => 'mysql',
 		    'database_name' => 'talkalot',
@@ -22,15 +23,32 @@ class CdrRepository{
 		$this->db = new medoo($cfg);
 		$this->start = $start;
 		$this->end = $end;
+		$this->type = $type;
 	}
 	public function process(){
-		$query = "SELECT date_format(dateCreated,'%Y-%m') as Periodo, type, peer, carrier, sum(billmin)
+
+		switch ($this->type) {
+			case 'relatorioDiario':{
+				$periodo = "date_format(dateCreated,'%d-%m-%Y')";
+				break;
+			}
+			case 'relatorioAnual':{
+				$periodo = "date_format(dateCreated,'%Y')";
+				break;	
+			}		
+			default:{
+				$periodo = "date_format(dateCreated,'%m-%Y')";
+				break;
+			}
+		}
+
+		$query = "SELECT " . $periodo . " as Periodo, type, peer, carrier, ROUND(sum(billmin),2)
 					FROM cdrs
 					where dateCreated >= '{$this->start} 00:00:00'
 						and dateCreated <= '{$this->end} 23:59:59'
 							and billmin > 0
 					group by Periodo, type, peer, carrier
-					order by Periodo, type, peer,sum(billmin)";
+					order by Periodo, peer,sum(billmin)";
 		$query = $this->db->query($query);
 		$data = $query->fetchAll(PDO::FETCH_ASSOC);
 		return $data;

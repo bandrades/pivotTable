@@ -30,13 +30,14 @@
 							sum: "Somar",
 							text: "Texto",
 							values: "Valores",
-							windowMessage: "[Mova os campos para o setor desejado]"
+							cancel: "Cancelar",
+							apply: "Aplicar", 
+							windowMessage: "Mova os campos para o setor desejado"
 
 						};
 
 						var pivot = webix.ui({
 							view: "pivot",
-							// url: "/dw/data?start="+ document.getElementById("inicio").value +"&end=" + document.getElementById("fim").value,
 							datatype: "csv",
 							container: "testA", 
 							id: "pivot",
@@ -50,7 +51,7 @@
 							},
 							structure: { 
 								columns: ['data0'],
-								rows: ["data1", "data2", "data3"],
+								rows: ["data2", "data3"],
 								values: [
 									{ name:"data4", operation:"soma"}
 								],
@@ -77,7 +78,18 @@
 						};
 				})
 				function carregaTabela(evt){
-					$$("pivot").load("/dw/data?start="+ document.getElementById("inicio").value +"&end=" + document.getElementById("fim").value,"csv");
+					var radios = document.getElementsByName('type');
+					for (var i = 0, length = radios.length; i < length; i++) {
+   						if (radios[i].checked) {
+					        var type = radios[i].value;
+				        	break;
+					    }
+					}
+					$$("pivot").data.clearAll();
+					$$("pivot").load("/dw/data?start="+ document.getElementById("inicio").value +"&end=" + document.getElementById("fim").value +"&type=" + type,"csv");
+					document.getElementById("relatorioMensal").checked = true;
+					document.getElementById("inicio").value = '';
+					document.getElementById("fim").value = '';
 				}
 				
 			</script>
@@ -95,16 +107,20 @@
 
 			<div id="conteudo">
 
-				<h2>Filtro</h2>
+				<div id="formulario">
 
-				<!-- <form method="post" > -->
+					Relatorio: 
+					<input type="radio" id="relatorioAnual" name="type" value="relatorioAnual">Anual
+					<input type="radio" id="relatorioMensal" name="type" value="relatorioMensal" checked >Mensal
+					<input type="radio" id="relatorioDiario" name="type" value="relatorioDiario">Diario <br>
 
 					Inicio: <input type="text" id="inicio" name = "inicio" value="" required> 
 					Fim: <input type="text"  id="fim" name = "fim" value="" required> 
 
 					<input type="submit" value="Gerar" onClick = "carregaTabela()"/>
-				<!-- </form> -->
 
+				</div>
+				
 				<div id = "testA"></div> 
 
 			</div>
