@@ -84,25 +84,37 @@
 				};
 			})
 			function carregaTabela(evt){
-				var radios = document.getElementsByName('type');
-				for (var i = 0, length = radios.length; i < length; i++) {
-					if (radios[i].checked) {
-						var type = radios[i].value;
-						break;
-					}
+				var dateStart = document.getElementById("inicio").value;
+				var dateEnd = document.getElementById("fim").value;
+
+				if(dateStart == "" || dateEnd == ""){
+					alert("Selecione uma data!");
 				}
+				else if(dateStart <= dateEnd){
+					var radios = document.getElementsByName('type');
+					for (var i = 0, length = radios.length; i < length; i++) {
+						if (radios[i].checked) {
+							var type = radios[i].value;
+							break;
+						}
+					}
 
-				$$("pivot").data.clearAll();
-				$$("pivot").load("/dw/data?start="+ document.getElementById("inicio").value +"&end=" + document.getElementById("fim").value +"&type=" + type,"csv");
+					$$("pivot").data.clearAll();
+					$$("pivot").load("/dw/data?start="+ dateStart +"&end=" + dateEnd +"&type=" + type,"csv");
 
-				document.getElementById("relatorioMensal").checked = true;
-				document.getElementById("inicio").value = '';
-				document.getElementById("fim").value = '';
-				document.getElementById('gif-loading').style.display = 'block';
+					document.getElementById("relatorioMensal").checked = true;
+					document.getElementById("inicio").value = '';
+					document.getElementById("fim").value = '';
+					document.getElementById('gif-loading').style.display = 'block';
 
-				$$("pivot").attachEvent("onAfterLoad", function(){
-					document.getElementById('gif-loading').style.display = 'none';
-				});
+					$$("pivot").attachEvent("onAfterLoad", function(){
+						document.getElementById('gif-loading').style.display = 'none';
+					});
+				}	
+				else{
+					alert("Selecione uma data Valida!");
+				}			
+
 			}
 		</script>
 
@@ -118,7 +130,7 @@
 					changeYear: true,
 					showOn: "button",
 					buttonImage: "jquery/imagem/calendario.png",
-					buttonImageOnly: true
+					buttonImageOnly: true,
 				});
 
 				$("#fim").datepicker({
@@ -127,7 +139,7 @@
 					changeYear: true,
 					showOn: "button",
 					buttonImage: "jquery/imagem/calendario.png",
-					buttonImageOnly: true
+					buttonImageOnly: true,
 				});
 			})
 		</script>
@@ -153,8 +165,8 @@
 			<input type="radio" id="relatorioMensal" name="type" value="relatorioMensal" checked >Mensal
 			<input type="radio" id="relatorioDiario" name="type" value="relatorioDiario">Diario <br>
 
-			Inicio: <input type="text" id="inicio" name = "inicio" value="" required="true"> 
-			Fim: <input type="text"  id="fim" name = "fim" value="" required="true"> 
+			Inicio: <input type="text" id="inicio" name = "inicio" value=""> 
+			Fim: <input type="text"  id="fim" name = "fim" value=""> 
 
 			<input type="submit" value="Gerar" onClick = "carregaTabela()"/>
 
