@@ -41,5 +41,11 @@ body{
 }
 
 #conteudo h2{
-     padding: 30px;
+    padding: 30px;
+}
+
+#gif-loading{
+    position:absolute;
+    left:50%;
+    top:40%;
 }

@@ -42,12 +42,11 @@ class CdrRepository{
 			}
 		}
 
-		$query = "SELECT " . $periodo . " as Periodo, type, peer, carrier, ROUND(sum(billmin),2)
+		$query = "SELECT " . $periodo . " as Periodo, type, peer, carrier, status, ROUND(sum(billmin),2), count(1)
 					FROM cdrs
 					where dateCreated >= '{$this->start} 00:00:00'
 						and dateCreated <= '{$this->end} 23:59:59'
-							and billmin > 0
-					group by Periodo, type, peer, carrier
+					group by Periodo, type, peer, carrier, status
 					order by Periodo, peer,sum(billmin)";
 		$query = $this->db->query($query);
 		$data = $query->fetchAll(PDO::FETCH_ASSOC);

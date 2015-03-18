@@ -1,21 +1,26 @@
 	<html lang ="pt-br">
 		<head>
-			<meta charset = utf-8>
+			<meta charset = "utf-8">
 			<meta name = "description" content = "Pagina de Geração de Relatórios">
 			<meta name = "keywords" content = "relatórios, LigFlat">
 			<meta name = "author" content = "Bruna Andrade Silva">
-			<link rel="stylesheet" type="text/css" href="Pagina_Relatorio_css.css">
 
 			<!-- js files -->
 			<script src="pivot_trial/codebase/webix.js" type="text/javascript"></script>
 			<script src="pivot_trial/codebase/pivot/pivot.js" type="text/javascript"></script>
+			<script src="jquery/jquery-1.11.2.js" type="text/javascript"></script>
+			<script src="jquery/jquery-maskedinput.js" type="text/javascript"></script>
+			<script src="jquery/jquery-ui.js" type="text/javascript"></script>
 
 			<!-- css files -->
+			<link rel="stylesheet" href="Pagina_Relatorio_css.css" type="text/css" charset="utf-8">
+			<link rel="stylesheet" href="jquery/jquery-ui.css" type="text/css" charset="utf-8">
 			<link rel="stylesheet" href="pivot_trial/codebase/webix.css" type="text/css" charset="utf-8">
 			<link rel="stylesheet" href="pivot_trial/codebase/pivot/pivot.css" type="text/css" charset="utf-8">
 
 			<script type="text/javascript">
 				webix.ready(function() {
+					document.getElementById('gif-loading').style.display = 'none';
 					webix.i18n.pivot = {
 							columns: "Colunas",
 							count: "Contar",
@@ -47,24 +52,26 @@
 								"data1" : "Tipo",
 								"data2" : "Rota",
 								"data3" : "Operadora",
-								"data4" : "Trafego"
+								"data4" : "Status",
+								"data5" : "Trafego",
+								"data6" : "Contador"
 							},
 							structure: { 
 								columns: ['data0'],
 								rows: ["data2", "data3"],
 								values: [
-									{ name:"data4", operation:"soma"}
+									{ name:"data5", operation:"soma"},
+									{ name:"data6", operation:"soma"}
 								],
 								filters:[
 									{name:"data1",type:"select"},
-									{name:"data2",type:"select"},
-									{name:"data3",type:"select"},
-									{name:"data0",type:"select"}
+									{name:"data4",type:"select"}					
 								],
 							},
 							ready:function() {
 								console.log('data pivot loaded');
 							}
+
 						});
 						
 						pivot.operations.soma = function(data) {
@@ -90,9 +97,41 @@
 					document.getElementById("relatorioMensal").checked = true;
 					document.getElementById("inicio").value = '';
 					document.getElementById("fim").value = '';
+					document.getElementById('gif-loading').style.display = 'block';
+					$$("pivot").attachEvent("onAfterLoad", function(){
+						document.getElementById('gif-loading').style.display = 'none';
+					})
 				}
-				
+
 			</script>
+
+			<script type="text/javascript">
+				jQuery(function($){
+					$("#inicio").datepicker({
+						dateFormat: 'yyyy-mm-dd',
+						showButtonPanel:true,
+						changeMonth: true,
+        				changeYear: true
+				        showOn: "button",
+				        buttonImage: "jquery/Imagem/calendario.png",
+				        buttonImageOnly: true
+				    });
+
+					$("#fim").datepicker({
+						dateFormat: 'yyyy-mm-dd',
+						showButtonPanel:true,
+						changeMonth: true,
+        				changeYear: true
+				        showOn: "button",
+				        buttonImage: "calendario.png",
+				        buttonImageOnly: true
+				    });
+
+   		// 			$("#inicio").mask("9999-99-99",{placeholder:"yyyy-mm-dd"});
+					// $("#fim").mask("9999-99-99",{placeholder:"yyyy-mm-dd"});
+				});	
+			</script>
+
 
 		<title>Relatórios</title>
 		</head>
@@ -118,6 +157,8 @@
 					Fim: <input type="text"  id="fim" name = "fim" value="" required="true"> 
 
 					<input type="submit" value="Gerar" onClick = "carregaTabela()"/>
+
+					<br> <img src="jquery/Imagem/ajax-loader.gif" id="gif-loading">
 
 				</div>
 				
