@@ -48,6 +48,12 @@ img.ui-datepicker-trigger{
     padding: 30px;
 }
 
+#exportaexcel{
+    position:absolute;
+    left:75%;
+    top:40%;
+}
+
 #gif-loading{
     position:absolute;
     left:50%;

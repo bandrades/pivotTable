@@ -22,6 +22,7 @@
 		<script type="text/javascript">
 			webix.ready(function() {
 				document.getElementById('gif-loading').style.display = 'none';
+				document.getElementById('exportaexcel').style.display = 'none';
 				webix.i18n.pivot = {
 					columns: "Colunas",
 					count: "Contar",
@@ -49,23 +50,25 @@
 					height:600,
 					fieldMap:{
 						"data0" : "Periodo",
-						"data1" : "Tipo",
-						"data2" : "Rota",
-						"data3" : "Operadora",
-						"data4" : "Status",
-						"data5" : "Trafego",
-						"data6" : "Contador"
+						"data1" : "Ramal",
+						"data2" : "Tipo",
+						"data3" : "Rota",
+						"data4" : "Operadora",
+						"data5" : "Status",
+						"data6" : "Trafego",
+						"data7" : "Contador"
 					},
 					structure: { 
 						columns: ['data0'],
-						rows: ["data2", "data3"],
+						rows: ["data3", "data4"],
 						values: [
-						{ name:"data5", operation:"soma"},
-						{ name:"data6", operation:"soma"}
+						{ name:"data6", operation:"soma"},
+						{ name:"data7", operation:"soma"}
 						],
 						filters:[
 						{name:"data1",type:"select"},
-						{name:"data4",type:"select"}					
+						{name:"data2",type:"select"},
+						{name:"data5",type:"select"}					
 						],
 					},
 					ready:function() {
@@ -109,12 +112,16 @@
 
 					$$("pivot").attachEvent("onAfterLoad", function(){
 						document.getElementById('gif-loading').style.display = 'none';
+						document.getElementById('exportaexcel').style.display = 'block';
 					});
 				}	
 				else{
 					alert("Selecione uma data Valida!");
 				}			
 
+			}
+			function exportarExcel(evt){	
+				$$("pivot").toExcel();
 			}
 		</script>
 
@@ -170,7 +177,9 @@
 
 			<input type="submit" value="Gerar" onClick = "carregaTabela()"/>
 
-			<br> <img src="jquery/imagem/ajax-loader.gif" id="gif-loading">
+			<br> <img src="jquery/imagem/ajax-loader.gif" id="gif-loading" style.display = 'none'>
+
+			<input type="submit" id = "exportaexcel" value="Exportar Excel" onClick = "exportarExcel()" style.display = 'none'/>
 
 		</div>
 
