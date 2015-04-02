@@ -46,8 +46,8 @@ class CdrRepository{
 					FROM cdrs
 					where dateCreated >= '{$this->start} 00:00:00'
 						and dateCreated <= '{$this->end} 23:59:59'
-					group by account, Periodo, type, peer, carrier, status
-					order by account, Periodo, peer,sum(billmin)";
+					group by Periodo, account, type, peer, carrier, status
+					order by Periodo, sum(billmin)";
 		$query = $this->db->query($query);
 		$data = $query->fetchAll(PDO::FETCH_ASSOC);
 		return $data;

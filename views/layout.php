@@ -62,13 +62,13 @@
 						columns: ['data0'],
 						rows: ["data3", "data4"],
 						values: [
-						{ name:"data6", operation:"soma"},
-						{ name:"data7", operation:"soma"}
+							{ name:"data6", operation:"soma"},
+							{ name:"data7", operation:"soma"},
 						],
 						filters:[
-						{name:"data1",type:"select"},
-						{name:"data2",type:"select"},
-						{name:"data5",type:"select"}					
+							{name:"data1",type:"text"},
+							{name:"data2",type:"select"},
+							{name:"data5",type:"select"}					
 						],
 					},
 					ready:function() {
@@ -105,7 +105,7 @@
 					$$("pivot").data.clearAll();
 					$$("pivot").load("/dw/data?start="+ dateStart +"&end=" + dateEnd +"&type=" + type,"csv");
 
-					document.getElementById("relatorioMensal").checked = true;
+					document.getElementById("relatorioDiario").checked = true;
 					document.getElementById("inicio").value = '';
 					document.getElementById("fim").value = '';
 					document.getElementById('gif-loading').style.display = 'block';
@@ -169,8 +169,8 @@
 
 			Relatorio: 
 			<input type="radio" id="relatorioAnual" name="type" value="relatorioAnual">Anual
-			<input type="radio" id="relatorioMensal" name="type" value="relatorioMensal" checked >Mensal
-			<input type="radio" id="relatorioDiario" name="type" value="relatorioDiario">Diario <br>
+			<input type="radio" id="relatorioMensal" name="type" value="relatorioMensal">Mensal
+			<input type="radio" id="relatorioDiario" name="type" value="relatorioDiario" checked>Diario <br>
 
 			Inicio: <input type="text" id="inicio" name = "inicio" value=""> 
 			Fim: <input type="text"  id="fim" name = "fim" value=""> 
